@@ -1,5 +1,5 @@
-#include "Identicon.h"
-#include "Image.h"
+#include "include/Identicon.h"
+#include "include/Image.h"
 
 namespace Identicon {
     void Identicon::hash_input() {
