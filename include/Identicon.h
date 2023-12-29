@@ -8,8 +8,6 @@ namespace Identicon {
 
 class Identicon {
 private:
-    int width;
-    int height;
     std::vector<uint8_t> hex;
     std::string input;
     std::vector<std::vector<uint8_t>> grid;
@@ -21,10 +19,10 @@ private:
     void generate_image();
 
 public:
-     Identicon(int width, int height, std::string input) : width{width}, height{height}, input{input} {};
+     Identicon(std::string input) : input{input} {};
      ~Identicon() {};
 
-    static void create_image(int w, int h, std::string input);
+    static void create_image(std::string input);
 };
 
 }

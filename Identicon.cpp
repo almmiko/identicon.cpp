@@ -14,15 +14,17 @@ namespace Identicon {
         this->hex = _hex;
     }
 
-    void Identicon::create_image(int w, int h, std::string input) {
-        Identicon* identicon = new Identicon(w, h, input);
+    void Identicon::create_image(std::string input) {
+        Identicon* identicon = new Identicon(input);
 
         identicon->hash_input();
         identicon->pick_color();
         identicon->build_grid();
         identicon->generate_image();
 
-        printf("point");
+        std::string input_with_ext = input + ".bmp";
+
+        printf("Identicon was generated. File: %s\n", input_with_ext.c_str());
     }
 
     void Identicon::pick_color() {
@@ -50,14 +52,34 @@ namespace Identicon {
     }
 
     void Identicon::generate_image() {
-        int fr[] = {
-                0, 85, 164,    // Bleu
-                255, 255, 255, // Blanc
-                239, 65, 53,   // Rouge
-                0, 85, 164,
-                255, 255, 255,
-                239, 65, 53,
-        };
-        Image::write("french_flag.bmp", reinterpret_cast<int *>(&fr), sizeof(fr) / sizeof(char), 3);
+       std::vector<int> rgb;
+
+        for (int i = 0; i < this->grid.size(); i++) {
+            int pixel_size_height = 50;
+
+            while (pixel_size_height--) {
+                for (int j = 0; j < this->grid[0].size(); j++) {
+                    int pixel_size_width = 50;
+                    if (this->grid[i][j] % 2 == 0) {
+                        while (pixel_size_width--) {
+                            rgb.push_back(255);
+                            rgb.push_back(255);
+                            rgb.push_back(255);
+                        }
+                    } else {
+                        while (pixel_size_width--) {
+                            rgb.push_back(this->color[0]);
+                            rgb.push_back(this->color[1]);
+                            rgb.push_back(this->color[2]);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        std::string file_name = this->input.append(".bmp");
+
+        Image::write(file_name, &rgb[0], 250, 250);
     }
 }
